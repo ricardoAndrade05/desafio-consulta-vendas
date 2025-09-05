@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.devsuperior.dsmeta.dto.SaleDTO;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
+import com.devsuperior.dsmeta.dto.SallerDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 
@@ -38,6 +39,17 @@ public class SaleService {
 		return relatorio;
 		
 	}
+	
+	public Page<SallerDTO> sumario(String minDate, String maxDate, Pageable pageable) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dataFinal;
+		LocalDate dataInicial;
+		dataFinal = retornaDataFinal(maxDate, formatter);
+		dataInicial = retornaDataInicial(minDate,formatter, dataFinal);
+		Page<SallerDTO> sumario = repository.sumario(dataInicial, dataFinal, pageable);
+		return sumario;
+	}
+	
 
 	private LocalDate retornaDataInicial(String minDate, DateTimeFormatter formatter, LocalDate dataFinal) {
 		LocalDate dataInicial;
